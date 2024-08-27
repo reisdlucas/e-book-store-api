@@ -3,6 +3,9 @@ package com.book_store.e_book_store_api.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "T_LIVRO")
 @Data
@@ -23,4 +26,11 @@ public class Livro {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "editora_id")
     private Editora editora;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tb_livro_autor",
+            joinColumns = @JoinColumn(name = "livro_id"),
+            inverseJoinColumns = @JoinColumn(name = "autor_id"))
+    private Set<Autor> autor = new HashSet<>();
 }
