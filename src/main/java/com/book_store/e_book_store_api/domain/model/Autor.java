@@ -1,7 +1,11 @@
 package com.book_store.e_book_store_api.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_AUTOR")
@@ -21,6 +25,10 @@ public class Autor {
 
     @Column(name = "NM_AUTOR", nullable = false)
     private String nome;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(mappedBy = "autor", fetch = FetchType.LAZY)
+    private Set<Livro> livro = new HashSet<>();
 
 
 }
