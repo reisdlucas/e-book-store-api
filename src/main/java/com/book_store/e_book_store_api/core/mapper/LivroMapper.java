@@ -9,9 +9,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface LivroMapper {
+
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "editora", source = "id")
-    @Mapping(target = "autor", source = "id")
     Livro mapRequestToEntity(LivroRequest livroRequest);
 
     @Mapping(source = "id", target = "id")
