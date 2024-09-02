@@ -71,6 +71,17 @@ public class LivroController {
         return ResponseEntity.ok(livroResponse);
     }
 
-
+    @GetMapping("/{idLivro}")
+    @Operation(description = "Buscar livro po ID", summary = "Buscar livro por ID")
+    @ApiResponses(value ={
+            @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = LivroResponse.class))),
+    })
+    public ResponseEntity<LivroResponse> findById(@PathVariable(name = "idLivro") Long idLivro) {
+        Livro livro = livroService.findById(idLivro);
+        LivroResponse livroResponse = livroMapper.mapEntityToResponse(livro);
+        return ResponseEntity.ok(livroResponse);
+    }
 
 }
