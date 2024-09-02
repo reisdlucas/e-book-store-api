@@ -101,4 +101,16 @@ public class LivroController {
         return ResponseEntity.ok(livroResponse);
     }
 
+    @DeleteMapping("/{idLivro}")
+    @Operation(description = "Deletar livro", summary = "Deletar livro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Operação bem sucesida"),
+            @ApiResponse(responseCode = "404", description = "Bad request")
+    })
+    public ResponseEntity<List<LivroResponse>> delete(@Parameter(description = "ID do livro", required = true)
+                                                      @PathVariable(name = "idLivro") Long idLivro) {
+        livroService.delete(idLivro);
+        return ResponseEntity.noContent().build();
+    }
+
 }
