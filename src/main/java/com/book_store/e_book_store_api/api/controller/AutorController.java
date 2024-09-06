@@ -6,6 +6,7 @@ import com.book_store.e_book_store_api.core.mapper.AutorMapper;
 import com.book_store.e_book_store_api.domain.model.Autor;
 import com.book_store.e_book_store_api.domain.service.AutorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -81,6 +82,22 @@ public class AutorController {
     public ResponseEntity<AutorResponse> findById(@PathVariable(name = "idAutor") Long idAutor) {
         Autor autor = autorService.findById(idAutor);
         AutorResponse autorResponse = autorMapper.mapEntityToResponse(autor);
+        return ResponseEntity.ok(autorResponse);
+    }
+
+    @PutMapping(value = "/{idAutor}")
+    @Operation(description = "Editar autor", summary = "Editar autor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = AutorResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    public ResponseEntity<AutorResponse> update(@Parameter(description = "ID do autor", required = true)
+                                                @PathVariable(name = "idAutor") Long idAutor,
+                                                @RequestBody AutorRequest autorRequest) {
+        Autor autor = autorMapper.mapRequestToEntity(autorRequest);
+        Autor updatedAutor = autorService.update(idAutor, autor);
+        AutorResponse autorResponse = autorMapper.mapEntityToResponse(updatedAutor);
         return ResponseEntity.ok(autorResponse);
     }
 
