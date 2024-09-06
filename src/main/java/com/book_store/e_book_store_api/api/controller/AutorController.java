@@ -71,4 +71,17 @@ public class AutorController {
         return ResponseEntity.ok(autorResponse);
     }
 
+    @GetMapping("{idAutor}")
+    @Operation(description = "Buscar autor por ID", summary = "Buscar autor por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
+            content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = AutorResponse.class))),
+    })
+    public ResponseEntity<AutorResponse> findById(@PathVariable(name = "idAutor") Long idAutor) {
+        Autor autor = autorService.findById(idAutor);
+        AutorResponse autorResponse = autorMapper.mapEntityToResponse(autor);
+        return ResponseEntity.ok(autorResponse);
+    }
+
 }
