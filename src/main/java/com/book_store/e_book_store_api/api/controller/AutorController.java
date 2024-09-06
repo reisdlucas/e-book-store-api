@@ -101,4 +101,16 @@ public class AutorController {
         return ResponseEntity.ok(autorResponse);
     }
 
+    @DeleteMapping("/{idAutor}")
+    @Operation(description = "Deletar autor", summary = "Deletar autor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Operação bem sucedida"),
+            @ApiResponse(responseCode = "404", description = "Bad request")
+    })
+    public ResponseEntity<List<AutorResponse>> delete(@Parameter(description = "ID do autor", required = true)
+                                                      @PathVariable(name = "idAutor") Long idAutor) {
+        autorService.delete(idAutor);
+        return ResponseEntity.noContent().build();
+    }
+
 }
