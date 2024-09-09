@@ -6,6 +6,7 @@ import com.book_store.e_book_store_api.core.mapper.EditoraMapper;
 import com.book_store.e_book_store_api.domain.model.Editora;
 import com.book_store.e_book_store_api.domain.service.EditoraService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -81,6 +82,22 @@ public class EditoraController {
     public ResponseEntity<EditoraResponse> findById(@PathVariable(name = "idEditora") Long idEditora) {
         Editora editora = editoraService.findById(idEditora);
         EditoraResponse editoraResponse = editoraMapper.mapEntityToResponse(editora);
+        return ResponseEntity.ok(editoraResponse);
+    }
+
+    @PutMapping(value = "/{idEditora}")
+    @Operation(description = "Editar editora", summary = "Editar editora")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação bem sucesida",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = EditoraResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad request")
+    })
+    public ResponseEntity<EditoraResponse> update(@Parameter(description = "ID da editora", required = true)
+                                                  @PathVariable(name = "idEditora") Long idEditora,
+                                                  @RequestBody EditoraRequest editoraRequest) {
+        Editora editora = editoraMapper.mapRequestToEntity(editoraRequest);
+        Editora updatedEditora = editoraService.update(idEditora, editora);
+        EditoraResponse editoraResponse = editoraMapper.mapEntityToResponse(updatedEditora);
         return ResponseEntity.ok(editoraResponse);
     }
 
