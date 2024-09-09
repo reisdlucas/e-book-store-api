@@ -45,7 +45,7 @@ public class LivroController {
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LivroResponse.class))}),
             @ApiResponse(responseCode = "404", description = "Bad request")
     })
-    public ResponseEntity<LivroResponse> createLivro(@RequestBody @Valid LivroRequest livroRequest,
+    public ResponseEntity<LivroResponse> create(@RequestBody @Valid LivroRequest livroRequest,
                                                      UriComponentsBuilder uriComponentsBuilder) {
         Livro livro = livroMapper.mapRequestToEntity(livroRequest);
         Livro createdLivro = livroService.create(livro);
