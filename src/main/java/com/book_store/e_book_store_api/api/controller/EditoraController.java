@@ -71,4 +71,17 @@ public class EditoraController {
         return ResponseEntity.ok(editoraResponse);
     }
 
+    @GetMapping("/{idEditora}")
+    @Operation(description = "Buscar editora por ID", summary = "Buscar editora por ID")
+    @ApiResponses(value ={
+            @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EditoraResponse.class))),
+    })
+    public ResponseEntity<EditoraResponse> findById(@PathVariable(name = "idEditora") Long idEditora) {
+        Editora editora = editoraService.findById(idEditora);
+        EditoraResponse editoraResponse = editoraMapper.mapEntityToResponse(editora);
+        return ResponseEntity.ok(editoraResponse);
+    }
+
 }
