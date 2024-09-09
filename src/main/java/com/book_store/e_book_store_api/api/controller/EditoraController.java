@@ -101,4 +101,16 @@ public class EditoraController {
         return ResponseEntity.ok(editoraResponse);
     }
 
+    @DeleteMapping("/{idEditora}")
+    @Operation(description = "Deletar editora", summary = "Deletar editora")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Operação bem sucesida"),
+            @ApiResponse(responseCode = "404", description = "Bad request")
+    })
+    public ResponseEntity<List<EditoraResponse>> delete(@Parameter(description = "ID da editora", required = true)
+                                                        @PathVariable(name = "idEditora") Long idEditora) {
+        editoraService.delete(idEditora);
+        return ResponseEntity.noContent().build();
+    }
+
 }
