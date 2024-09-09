@@ -6,6 +6,7 @@ import com.book_store.e_book_store_api.core.mapper.EditoraMapper;
 import com.book_store.e_book_store_api.domain.model.Editora;
 import com.book_store.e_book_store_api.domain.service.EditoraService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,13 +15,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/editora")
@@ -55,4 +55,20 @@ public class EditoraController {
         EditoraResponse editoraResponse = editoraMapper.mapEntityToResponse(createdEditora);
         return ResponseEntity.created(uri).body(editoraResponse);
     }
+
+    @GetMapping
+    @ResponseBody
+    @Operation(description = "Buscar todas as editoras", summary = "Buscar todas as editoras")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = EditoraResponse.class)))),
+    })
+    public ResponseEntity<List<EditoraResponse>> findAll() {
+        List<Editora> editora = editoraService.findAll();
+        List<EditoraResponse> editoraResponse = editora.stream()
+                .map(editoraMapper::mapEntityToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(editoraResponse);
+    }
+
 }
