@@ -15,6 +15,6 @@ public class AutorRequest {
 
     @NotBlank(message = "Can't be blank")
     @Schema(description = "Nome do autor")
-    private String name;
+    private String nome;
 
 }
