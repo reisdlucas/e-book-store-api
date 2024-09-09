@@ -73,7 +73,7 @@ public class LivroController {
     }
 
     @GetMapping("/{idLivro}")
-    @Operation(description = "Buscar livro po ID", summary = "Buscar livro por ID")
+    @Operation(description = "Buscar livro por ID", summary = "Buscar livro por ID")
     @ApiResponses(value ={
             @ApiResponse(responseCode = "200", description = "Operação bem sucedida",
                     content = @Content(mediaType = "application/json",
