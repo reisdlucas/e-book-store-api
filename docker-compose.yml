@@ -1,0 +1,11 @@
+version: "3.1"
+services:
+  postgres-springboot:
+    image: postgres
+    container_name: e-book-store-api
+    environment:
+      POSTGRES_USER: e-book-store-api
+      POSTGRES_PASSWORD: e-book-store-api
+      POSTGRES_DB: e-book-store-api
+    ports:
+      - "5436:5432"
